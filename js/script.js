@@ -21,7 +21,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function Column(name) {
         var self = this;
-
         this.id = randomString();
         this.name = name;
         this.element = generateTemplate('column-template', {
@@ -35,9 +34,21 @@ document.addEventListener('DOMContentLoaded', function () {
             }
 
             if (event.target.classList.contains('add-card')) {
-                self.addCard(new Card(prompt('Enter the name of the card')));
+                var nameAdded = prompt("Enter the name of the card");
+                if (nameAdded != null) { //nameAdded is name typed in prompt, can't be equal zero (cancel, othervise add card//
+                    self.addCard(new Card(nameAdded));
+                }
             }
         });
+        //this.element.querySelector('.column').addEventListener('click', function (event) {
+        // if (event.target.classList.contains('btn-delete')) {
+        //    self.removeColumn();
+        // }
+
+        // if (event.target.classList.contains('add-card')) {
+        //   self.addCard(new Card(prompt('Enter the name of the card')));
+        // }
+        // });
     }
 
     Column.prototype = {
@@ -91,9 +102,13 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     document.querySelector('#board .create-column').addEventListener('click', function () {
-        var name = prompt('Enter a column name');
-        var column = new Column(name || 'Unnamed');
-        board.addColumn(column);
+        var nameAdded = prompt('Enter a column name');
+        if (nameAdded != null) {
+            var name = nameAdded;
+            var column = new Column(name || 'Unnamed');
+            board.addColumn(column);
+        }
+
     });
 
     // CREATING COLUMNS
@@ -109,7 +124,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // CREATING CARDS
     var card1 = new Card('New task');
     var card2 = new Card('Create kanban boards');
-
     // ADDING CARDS TO COLUMNS
     todoColumn.addCard(card1);
     doingColumn.addCard(card2);
